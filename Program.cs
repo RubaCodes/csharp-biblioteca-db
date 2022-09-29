@@ -3,29 +3,50 @@
 string stringaDiConnessione = "Data Source=localhost;Initial Catalog=db-biblioteca;Integrated Security=True";
 
 SqlConnection connection = new SqlConnection(stringaDiConnessione);
-// inseriamo un prodotto nelal tabella prodotti
+// inseriamo un prodotto nella tabella prodotti
+//try
+//{
+//    connection.Open();
+//    Console.WriteLine("Connessione Aperta");
+//    string query = "INSERT INTO Products (SerialCode,Title, Year, Media_type) VALUES (@codice_seriale , @titolo , @anno, @media)";
+//    SqlCommand cmd = new SqlCommand(query, connection);
+//    cmd.Parameters.Add(new SqlParameter("@codice_seriale", "213kb12b3123k"));
+//    cmd.Parameters.Add(new SqlParameter("@titolo", "Harry Potter e la pietra filosofale"));
+//    cmd.Parameters.Add(new SqlParameter("@anno", "2001"));
+//    cmd.Parameters.Add(new SqlParameter("@media", "Book"));
+
+//    int affectedRows = cmd.ExecuteNonQuery();
+//}
+//catch(SqlException ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+//finally {
+//    connection.Close();
+//    Console.WriteLine("Connessione Chiusa");
+//}
+
+//UPDATE RECORD
 try
 {
     connection.Open();
     Console.WriteLine("Connessione Aperta");
-    string query = "INSERT INTO Products (SerialCode,Title, Year, Media_type) VALUES (@codice_seriale , @titolo , @anno, @media)";
+    string query = "UPDATE Products SET Media_type=@media WHERE Year = @anno;";
     SqlCommand cmd = new SqlCommand(query, connection);
-    cmd.Parameters.Add(new SqlParameter("@codice_seriale", "213kb12b3123k"));
-    cmd.Parameters.Add(new SqlParameter("@titolo", "Harry Potter e la pietra filosofale"));
     cmd.Parameters.Add(new SqlParameter("@anno", "2001"));
-    cmd.Parameters.Add(new SqlParameter("@media", "Book"));
+    cmd.Parameters.Add(new SqlParameter("@media", "Movie"));
 
     int affectedRows = cmd.ExecuteNonQuery();
 }
-catch(SqlException ex)
+catch (SqlException ex)
 {
     Console.WriteLine(ex.Message);
 }
-finally {
+finally
+{
     connection.Close();
     Console.WriteLine("Connessione Chiusa");
 }
-
 
 //nuova biblioteca
 //Biblioteca bibilioteca = new Biblioteca();
