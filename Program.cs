@@ -48,6 +48,52 @@ finally
     Console.WriteLine("Connessione Chiusa");
 }
 
+
+bool continua = true;
+while (continua) {
+    Console.WriteLine("0 per uscire / 1 - per aggiungere un nuovo prodotto");
+    string choice = Console.ReadLine();
+    switch (choice) {
+        case "1":
+            Console.WriteLine("Inserisci codice seriale del prodotto");
+            string codice = Console.ReadLine();
+            Console.WriteLine("Inserisci titolo del prodotto");
+            string titolo = Console.ReadLine();
+            Console.WriteLine("Inserisci anno di distribuzione del prodotto (yyyy):");
+            string anno = Console.ReadLine();
+            Console.WriteLine("Inserisci titolo del prodotto: (Movie oppure Book)");
+            string mediaType = Console.ReadLine();
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Connessione Aperta");
+                string query = "INSERT INTO Products (SerialCode,Title, Year, Media_type) VALUES (@codice_seriale , @titolo , @anno, @media)";
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.Add(new SqlParameter("@codice_seriale", codice));
+                cmd.Parameters.Add(new SqlParameter("@titolo",titolo));
+                cmd.Parameters.Add(new SqlParameter("@anno", anno));
+                cmd.Parameters.Add(new SqlParameter("@media", mediaType));
+
+                int affectedRows = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+                Console.WriteLine("Connessione Chiusa");
+            }
+
+            break;
+            case "0":
+            continua = false;
+            break;
+            
+    }
+
+}
 //nuova biblioteca
 //Biblioteca bibilioteca = new Biblioteca();
 ////nuovo user
