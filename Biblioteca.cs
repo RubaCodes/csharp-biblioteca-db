@@ -1,7 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-public class Bibilioteca {
+﻿
+public class Biblioteca {
     //lista utenti registrati
-     protected List<User> RegisterdUsers = new List<User>();
+    protected List<User> RegisterdUsers = new List<User>();
     //lista film 
     protected List<Movie> Movies = new List<Movie>();
     //lista Libri
