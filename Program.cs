@@ -27,33 +27,54 @@ SqlConnection connection = new SqlConnection(stringaDiConnessione);
 //}
 
 //UPDATE RECORD
-try
-{
-    connection.Open();
-    Console.WriteLine("Connessione Aperta");
-    string query = "UPDATE Products SET Media_type=@media WHERE Year = @anno;";
-    SqlCommand cmd = new SqlCommand(query, connection);
-    cmd.Parameters.Add(new SqlParameter("@anno", "2001"));
-    cmd.Parameters.Add(new SqlParameter("@media", "Movie"));
+//try
+//{
+//    connection.Open();
+//    Console.WriteLine("Connessione Aperta");
+//    string query = "UPDATE Products SET Media_type=@media WHERE Year = @anno;";
+//    SqlCommand cmd = new SqlCommand(query, connection);
+//    cmd.Parameters.Add(new SqlParameter("@anno", "2001"));
+//    cmd.Parameters.Add(new SqlParameter("@media", "Movie"));
 
-    int affectedRows = cmd.ExecuteNonQuery();
-}
-catch (SqlException ex)
-{
-    Console.WriteLine(ex.Message);
-}
-finally
-{
-    connection.Close();
-    Console.WriteLine("Connessione Chiusa");
-}
+//    int affectedRows = cmd.ExecuteNonQuery();
+//}
+//catch (SqlException ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+//finally
+//{
+//    connection.Close();
+//    Console.WriteLine("Connessione Chiusa");
+//}
+
+
 
 
 bool continua = true;
 while (continua) {
-    Console.WriteLine("0 per uscire / 1 - per aggiungere un nuovo prodotto");
+    Console.WriteLine("0 per uscire / 1 - per aggiungere un nuovo prodotto / 2 - cerca prodotto per titolo");
     string choice = Console.ReadLine();
     switch (choice) {
+        case "2":
+            connection.Open();
+            Console.WriteLine("Inserisci il titolo del prodotto");
+            string search = Console.ReadLine();
+            string searchQuery = "SELECT * FROM Products WHERE Title = @search ;";
+            using (SqlCommand cmd = new SqlCommand(searchQuery, connection)) {
+                cmd.Parameters.Add(new SqlParameter("@search", search.ToUpper()));
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(reader.GetInt32(0));
+                        Console.WriteLine(reader.GetString(1));
+                        Console.WriteLine(reader.GetString(2));
+                    }
+                }
+            }
+            connection.Close();
+                break;
         case "1":
             Console.WriteLine("Inserisci codice seriale del prodotto");
             string codice = Console.ReadLine();
